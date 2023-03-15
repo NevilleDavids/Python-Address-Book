@@ -20,12 +20,3 @@ class AddressOBJ():
         """This method allows for writing to a new csv once all changes have been made to the address book"""
         df = pd.DataFrame.from_dict(ListOfAddresses)
         df.to_csv(filepath, encoding ='utf-8', index = False)
-    
-
-
-  
-
-        
-
-
-#print(AddAddress.LoadAddresses("C:/Users/E1002734/Desktop/Python Assessment Project/addresses.csv"))
