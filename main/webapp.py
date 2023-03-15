@@ -7,9 +7,9 @@ app = Flask(__name__)
 def Show_Addresses():
     return render_template("home.html")
 
-@app.route("/Add_Address", )
+@app.route("/Add_Address", methods = ["POST", "GET"])
 def Add_Address():
-    pass
+    return render_template("new.html")
 @app.route("/Search_Address")
 def Search_Address():
     pass
