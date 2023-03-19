@@ -5,7 +5,7 @@ from Address import AddressOBJ
 import pandas as pd
 app = Flask(__name__)
 app.secret_key = "OOOscecreet"
-filepath = "C:/Users/E1002734/Desktop/Python Assessment Project/addresses.csv"
+filepath = "C:/Users/User/Desktop/Work/Python-Address-Book/addresses.csv"
 myaddresses = AddressOBJ.LoadAddresses(filepath)
 @app.route("/")
 def HomePage():
@@ -17,7 +17,7 @@ def Show_Addresses():
     localadd.to_html(buff)
     html_string = buff.getvalue()
 
-    file = open("C:/Users/E1002734/Desktop/Python Assessment Project/main/templates/addresses.html","w")
+    file = open("C:/Users/User/Desktop/Work/Python-Address-Book/main/templates/addresses.html","w")
     file.write("<h1>Addresses</h1> {}".format(html_string))
     file.close()
 
@@ -35,11 +35,20 @@ def AddA_Address():
     newaddress = AddressOBJ(int(StreetNo),StreetName,Surburb,Province)
     newaddress.AddAddress(myaddresses)
     newaddress.WriteToCSV(filepath,myaddresses)
-    flash("Address Added")
     return render_template("home.html")
+
 @app.route("/Search_Address", methods = ["POST", "GET"])
-def Search_Address():
-    return f"text for testing"
+def SearchAddress():
+    return render_template("SearchForm.html")
+@app.route("/Search_Results", methods = ["POST", "GET"])
+def Searched_Addresses():
+
+    df = pd.DataFrame.from_dict(myaddresses)
+    sTerm = request.form.get("Street_Name")
+    Result = df[(df["Street Name"].str.contains(sTerm))] #performs a regex search to find matching values
+    Result = Result.to_dict("results")
+    print(Result)
+    return render_template("Found.html", Results = Result)
 
 
 if __name__ == "__main__":
